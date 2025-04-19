@@ -1,28 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Buy Now</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enter Your Email</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #4f46e5, #3b82f6);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      color: #1f2937;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #4b5563;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .input-group input:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn {
+      background-color: #3b82f6;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #2563eb;
+    }
+  </style>
 </head>
 <body>
-  <h2>Enter your email to continue</h2>
-  <form id="paymentForm">
-    <input type="email" id="email" placeholder="Enter your email" required />
-    <button type="submit">Proceed to Pay</button>
-  </form>
-
-  <script>
-    const razorpayLink = "https://rzp.io/l/yourPaymentPage"; // Replace with your Payment Page link
-
-    document.getElementById("paymentForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-
-      // Store the email locally for your tracking (optional, if you use webhook)
-      localStorage.setItem("customer_email", email);
-
-      // Redirect to Razorpay Payment Page
-      window.location.href = razorpayLink;
-    });
-  </script>
+  <div class="form-container">
+    <h2>Enter Your Email</h2>
+    <form action="https://your-razorpay-or-payment-link" method="GET">
+      <div class="input-group">
+        <label for="email1">Email</label>
+        <input type="email" id="email1" name="email1" required>
+      </div>
+      <div class="input-group">
+        <label for="email2">Confirm Email</label>
+        <input type="email" id="email2" name="email2" required>
+      </div>
+      <button class="btn" type="submit">Proceed to Pay</button>
+    </form>
+  </div>
 </body>
 </html>
