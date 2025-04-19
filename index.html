@@ -82,7 +82,8 @@
   <div class="form-container">
     <h2>Enter Your Email</h2>
     <p>This email will be used to send your course access link after payment.</p>
-    <form action="https://rzp.io/rzp/2ufX81R" method="GET">
+    
+    <form onsubmit="handleSubmit(event)">
       <div class="input-group">
         <label for="email">Email Address</label>
         <input type="email" id="email" name="email" required>
@@ -90,5 +91,18 @@
       <button class="btn" type="submit">Proceed to Payment</button>
     </form>
   </div>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault(); // prevent normal form submission
+      const email = document.getElementById("email").value;
+
+      localStorage.setItem("user_email", email);
+      console.log("Customer email stored in localStorage:", email);
+
+      // Redirect to payment page
+      window.location.href = "https://rzp.io/rzp/2ufX81R"; // your Razorpay link
+    }
+  </script>
 </body>
 </html>
