@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Buy Now</title>
+</head>
+<body>
+  <h2>Enter your email to continue</h2>
+  <form id="paymentForm">
+    <input type="email" id="email" placeholder="Enter your email" required />
+    <button type="submit">Proceed to Pay</button>
+  </form>
+
+  <script>
+    const razorpayLink = "https://rzp.io/l/yourPaymentPage"; // Replace with your Payment Page link
+
+    document.getElementById("paymentForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+
+      // Store the email locally for your tracking (optional, if you use webhook)
+      localStorage.setItem("customer_email", email);
+
+      // Redirect to Razorpay Payment Page
+      window.location.href = razorpayLink;
+    });
+  </script>
+</body>
+</html>
