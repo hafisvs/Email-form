@@ -156,21 +156,16 @@
 
       document.getElementById("loading").style.display = "block";
 
-      fetch("/api/save-ref", {
+      fetch("https://tradenest-7sl0.onrender.com/api/save-ref", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ email, refId })
       })
-      .then(res => {
-        console.log("Raw fetch response:", res);
-        return res.json();
-      })
+      .then(res => res.json())
       .then(response => {
-        console.log("Parsed server response:", response);
         document.getElementById("loading").style.display = "none";
-
         if (response.success) {
           document.getElementById("ref-id").innerText = refId;
           document.getElementById("ref-container").style.display = "block";
@@ -191,14 +186,10 @@
         const btn = document.getElementById("payment-btn");
         btn.disabled = false;
         btn.classList.add("active");
-        console.log("Reference ID copied:", refId);
-      }).catch(err => {
-        console.error("Clipboard error:", err);
       });
     }
 
     function goToPayment() {
-      console.log("Redirecting to payment...");
       window.location.href = "https://rzp.io/rzp/2ufX81R";
     }
   </script>
