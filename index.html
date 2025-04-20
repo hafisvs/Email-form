@@ -154,11 +154,29 @@
 
       document.getElementById("loading").style.display = "block";
 
-      setTimeout(() => {
+      fetch("/api/save-ref", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, refId })
+      })
+      .then(res => res.json())
+      .then(response => {
         document.getElementById("loading").style.display = "none";
-        document.getElementById("ref-id").innerText = refId;
-        document.getElementById("ref-container").style.display = "block";
-      }, 1000); // 1 second loading
+
+        if (response.success) {
+          document.getElementById("ref-id").innerText = refId;
+          document.getElementById("ref-container").style.display = "block";
+        } else {
+          alert("Failed to save data. Please try again.");
+        }
+      })
+      .catch(err => {
+        document.getElementById("loading").style.display = "none";
+        alert("Error occurred. Please try again.");
+        console.error(err);
+      });
     }
 
     function copyRefId() {
@@ -171,7 +189,7 @@
     }
 
     function goToPayment() {
-      window.location.href = "https://rzp.io/rzp/2ufX81R"; // replace with your Razorpay payment page
+      window.location.href = "https://rzp.io/rzp/2ufX81R"; // Replace with your actual Razorpay link
     }
   </script>
 </body>
