@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Enter Your Email</title>
+  <title>Course Access Email</title>
   <style>
     body {
       background: linear-gradient(135deg, #4f46e5, #3b82f6);
@@ -55,12 +55,6 @@
       font-size: 16px;
     }
 
-    .input-group input:focus {
-      border-color: #3b82f6;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-    }
-
     .btn {
       background-color: #3b82f6;
       color: white;
@@ -76,32 +70,84 @@
     .btn:hover {
       background-color: #2563eb;
     }
+
+    #ref-container {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    #ref-id {
+      background: #f3f4f6;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    #payment-btn {
+      margin-top: 20px;
+      background-color: grey;
+      cursor: not-allowed;
+    }
+
+    #payment-btn.active {
+      background-color: #3b82f6;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
   <div class="form-container">
     <h2>Enter Your Email</h2>
     <p>This email will be used to send your course access link after payment.</p>
-    
-    <form onsubmit="handleSubmit(event)">
+
+    <form onsubmit="generateRef(event)">
       <div class="input-group">
         <label for="email">Email Address</label>
         <input type="email" id="email" name="email" required>
       </div>
-      <button class="btn" type="submit">Proceed to Payment</button>
+      <button class="btn" type="submit">Generate Reference ID</button>
     </form>
+
+    <div id="ref-container">
+      <label>Your Reference ID:</label>
+      <div id="ref-id"></div>
+      <button class="btn" onclick="copyRefId()">Copy Reference ID</button>
+      <button id="payment-btn" class="btn" onclick="goToPayment()" disabled>Proceed to Payment</button>
+    </div>
   </div>
 
   <script>
-    function handleSubmit(event) {
-      event.preventDefault(); // prevent normal form submission
+    function generateRef(event) {
+      event.preventDefault();
       const email = document.getElementById("email").value;
+      const refId = "ref_" + Math.random().toString(36).substr(2, 9).toUpperCase();
 
       localStorage.setItem("user_email", email);
-      console.log("Customer email stored in localStorage:", email);
+      localStorage.setItem("user_ref_id", refId);
 
-      // Redirect to payment page
-      window.location.href = "https://rzp.io/rzp/2ufX81R"; // your Razorpay link
+      document.getElementById("ref-id").innerText = refId;
+      document.getElementById("ref-container").style.display = "block";
+
+      console.log("Email stored:", email);
+      console.log("Reference ID generated:", refId);
+    }
+
+    function copyRefId() {
+      const refId = document.getElementById("ref-id").innerText;
+      navigator.clipboard.writeText(refId).then(() => {
+        alert("Reference ID copied to clipboard");
+        const btn = document.getElementById("payment-btn");
+        btn.disabled = false;
+        btn.classList.add("active");
+      });
+    }
+
+    function goToPayment() {
+      // Optional: You could append ref ID to URL as a query param
+      window.location.href = "https://rzp.io/l/yourpaymentpage"; // your Razorpay payment page link
     }
   </script>
 </body>
