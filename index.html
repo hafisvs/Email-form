@@ -117,7 +117,6 @@
       background-color: #3b82f6;
       cursor: pointer;
     }
-
   </style>
 </head>
 <body>
@@ -149,6 +148,9 @@
       const email = document.getElementById("email").value;
       const refId = "ref_" + Math.random().toString(36).substr(2, 9).toUpperCase();
 
+      console.log("Email entered:", email);
+      console.log("Generated Ref ID:", refId);
+
       localStorage.setItem("user_email", email);
       localStorage.setItem("user_ref_id", refId);
 
@@ -161,8 +163,12 @@
         },
         body: JSON.stringify({ email, refId })
       })
-      .then(res => res.json())
+      .then(res => {
+        console.log("Raw fetch response:", res);
+        return res.json();
+      })
       .then(response => {
+        console.log("Parsed server response:", response);
         document.getElementById("loading").style.display = "none";
 
         if (response.success) {
@@ -173,9 +179,9 @@
         }
       })
       .catch(err => {
+        console.error("Fetch error:", err);
         document.getElementById("loading").style.display = "none";
         alert("Error occurred. Please try again.");
-        console.error(err);
       });
     }
 
@@ -185,11 +191,15 @@
         const btn = document.getElementById("payment-btn");
         btn.disabled = false;
         btn.classList.add("active");
+        console.log("Reference ID copied:", refId);
+      }).catch(err => {
+        console.error("Clipboard error:", err);
       });
     }
 
     function goToPayment() {
-      window.location.href = "https://rzp.io/rzp/2ufX81R"; // Replace with your actual Razorpay link
+      console.log("Redirecting to payment...");
+      window.location.href = "https://rzp.io/rzp/2ufX81R";
     }
   </script>
 </body>
